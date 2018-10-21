@@ -58,8 +58,8 @@ impl Default for GameState {
 pub fn start_game() {
     let mut game_state = GameState::default();
 
-    MenuBuilder::new("(paina enter jatkaaksesi)")
-        .add_pretext(&format!("{}\n", GAME_START_GREETING))
+    MenuBuilder::new(&format!("{}\n", GAME_START_GREETING))
+        .prompt("(paina enter jatkaaksesi)")
         .build()
         .show();
 
@@ -80,8 +80,8 @@ pub fn start_game() {
                     "Hyppää hankeen".to_string(),
                     OPT_HANKEEN.to_string(),
                 ))).collect::<Vec<(String, String)>>();
-            MenuBuilder::new("Mitä haluat tehdä? ")
-                .add_pretext(&format!("Olet nyt {}.", current_room.subject().inessive))
+            MenuBuilder::new(&format!("Olet nyt {}.", current_room.subject().inessive))
+                .prompt("Mitä haluat tehdä? ")
                 .options(options)
                 .build()
         };

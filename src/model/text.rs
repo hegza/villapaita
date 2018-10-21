@@ -14,6 +14,7 @@ pub struct FinnishNoun {
     pub inessive: String,
 }
 
+// TODO: replace data structure with a hashmap
 #[derive(Serialize, Deserialize)]
 pub struct Dictionary(Vec<FinnishNoun>);
 

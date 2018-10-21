@@ -71,15 +71,19 @@ impl Menu {
 pub struct MenuBuilder(Menu);
 
 impl MenuBuilder {
-    pub fn new(prompt: &str) -> MenuBuilder {
+    pub fn new(story: &str) -> MenuBuilder {
         MenuBuilder(Menu {
-            story: String::new(),
+            story: story.to_string(),
             options: vec![],
-            prompt: prompt.to_string(),
+            prompt: String::new(),
         })
     }
     pub fn add_pretext(mut self, text: &str) -> MenuBuilder {
         self.0.story.push_str(text);
+        self
+    }
+    pub fn prompt(mut self, prompt: &str) -> MenuBuilder {
+        self.0.prompt = prompt.to_string();
         self
     }
     pub fn options<S>(mut self, options: Vec<(S, S)>) -> MenuBuilder

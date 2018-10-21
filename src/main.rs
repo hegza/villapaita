@@ -35,8 +35,8 @@ impl TitleScreen {
     }
 
     pub fn main_menu(&mut self) -> GameFn {
-        let menu = MenuBuilder::new("Valitse vaihtoehto: ")
-            .add_pretext(&format!("{}", GREETING))
+        let menu = MenuBuilder::new(&format!("{}", GREETING))
+            .prompt("Valitse vaihtoehto: ")
             .options(vec![
                 ("Aloita peli", "start"),
                 ("Minipeli", "minigame"),
@@ -71,7 +71,7 @@ impl TitleScreen {
                 .build();
             match menu.show() {
                 Some(s) => match s {
-                    "pue " => {
+                    "pue" => {
                         prompt("Spasiba! Hyvin tehty. (enter lopettaaksesi)");
                         break;
                     }
