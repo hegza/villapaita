@@ -3,9 +3,10 @@ use std;
 const POST_INPUT_SPACER: &str = "-----\n";
 
 pub fn match_first<S, S2>(input: S, v: &[S2]) -> Option<usize>
-        where
-        S: Into<String>,
-        S2: Into<String> + Clone {
+where
+    S: Into<String>,
+    S2: Into<String> + Clone,
+{
     let input = input.into().to_lowercase();
     if input.len() == 0 {
         return None;
@@ -26,7 +27,9 @@ pub fn prompt(query: &str) -> String {
     //print!("{}", PROMPT);
     // TODO: flush
     let mut input: String = String::new();
-    std::io::stdin().read_line(&mut input).expect("Did not enter a correct string");
+    std::io::stdin()
+        .read_line(&mut input)
+        .expect("Did not enter a correct string");
     input
 }
 
@@ -51,9 +54,16 @@ impl Menu {
         let input = prompt(&self.prompt);
         println!("{}", POST_INPUT_SPACER);
 
-        match match_first(input.trim().as_ref(), &self.options.iter().map(|(s, _)| s.as_ref()).collect::<Vec<&str>>()) {
+        match match_first(
+            input.trim().as_ref(),
+            &self
+                .options
+                .iter()
+                .map(|(s, _)| s.as_ref())
+                .collect::<Vec<&str>>(),
+        ) {
             Some(pos) => Some(&self.options[pos].1),
-            None => None
+            None => None,
         }
     }
 }
@@ -62,24 +72,27 @@ pub struct MenuBuilder(Menu);
 
 impl MenuBuilder {
     pub fn new(prompt: &str) -> MenuBuilder {
-        MenuBuilder (
-            Menu {
-                story: String::new(),
-                options: vec![],
-                prompt: prompt.to_string()
-            }
-        )
+        MenuBuilder(Menu {
+            story: String::new(),
+            options: vec![],
+            prompt: prompt.to_string(),
+        })
     }
     pub fn add_pretext(mut self, text: &str) -> MenuBuilder {
         self.0.story.push_str(text);
         self
     }
-    pub fn options<S>(mut self, options: Vec<(S, S)>) -> MenuBuilder where S: AsRef<str> {
-        self.0.options = options.iter().map(|(s, act)| (s.as_ref().to_string(), act.as_ref().to_string())).collect();
+    pub fn options<S>(mut self, options: Vec<(S, S)>) -> MenuBuilder
+    where
+        S: AsRef<str>,
+    {
+        self.0.options = options
+            .iter()
+            .map(|(s, act)| (s.as_ref().to_string(), act.as_ref().to_string()))
+            .collect();
         self
     }
     pub fn build(self) -> Menu {
         self.0
     }
 }
-

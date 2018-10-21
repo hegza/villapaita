@@ -5,30 +5,29 @@ pub use self::text::*;
 
 use std::cmp::{Eq, PartialEq};
 
-pub enum ItemTag {
-}
+pub enum ItemTag {}
 pub struct Item {
     // Height of this item in meters when lying on free space.
     height: f32,
     // What game mechanics affect this item
-    tags: Vec<ItemTag>
+    tags: Vec<ItemTag>,
 }
 
 /// An item stack takes one cubic meter of space
 pub struct ItemStack {
     contents: Vec<Item>,
-    max_height: f32
+    max_height: f32,
 }
 pub struct ItemHeap {
     contents: Vec<Item>,
 }
 
 pub enum RoomTag {
-    Storage(usize)
+    Storage(usize),
 }
 pub struct Room {
     pub id: String,
-    pub tags: Vec<RoomTag>
+    pub tags: Vec<RoomTag>,
 }
 impl PartialEq for Room {
     fn eq(&self, other: &Room) -> bool {
@@ -48,7 +47,7 @@ pub trait Storage {
 
 pub struct Apartment {
     pub rooms: Vec<Room>,
-    description: String
+    description: String,
 }
 impl Apartment {
     pub fn from_rooms(rooms: Vec<Room>) -> Apartment {
@@ -57,10 +56,7 @@ impl Apartment {
             description.push_str(&room.id);
         }
 
-        Apartment {
-            rooms,
-            description
-        }
+        Apartment { rooms, description }
     }
 }
 

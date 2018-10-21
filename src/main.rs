@@ -4,12 +4,12 @@ extern crate lazy_static;
 extern crate serde;
 extern crate ron;
 
+mod cli;
 mod game;
 mod model;
-mod cli;
 
-use std::ops::Deref;
 use cli::*;
+use std::ops::Deref;
 
 static GREETING: &'static str = "
 ###################################
@@ -35,23 +35,25 @@ impl TitleScreen {
     }
 
     pub fn main_menu(&mut self) -> GameFn {
-        let menu =
-            MenuBuilder::new("Valitse vaihtoehto: ")
-                .add_pretext(&format!("{}", GREETING))
-                .options(vec![("Aloita peli", "start"), ("Minipeli", "minigame"), ("Kiitokset", "thanks"), ("Poistu", "exit"),]).build();
+        let menu = MenuBuilder::new("Valitse vaihtoehto: ")
+            .add_pretext(&format!("{}", GREETING))
+            .options(vec![
+                ("Aloita peli", "start"),
+                ("Minipeli", "minigame"),
+                ("Kiitokset", "thanks"),
+                ("Poistu", "exit"),
+            ]).build();
 
         let trans = menu.show();
         println!("");
         match trans {
-            Some(s) => {
-                match s {
-                    "start" => GameFn::new(Self::start_game, true),
-                    "minigame" => GameFn::new(Self::vladimir, true),
-                    "thanks" => GameFn::new(Self::thanks, true),
-                    "exit" => GameFn::new(Self::main_menu, false),
-                    _ => GameFn::new(Self::main_menu, true)
-                }
-            }
+            Some(s) => match s {
+                "start" => GameFn::new(Self::start_game, true),
+                "minigame" => GameFn::new(Self::vladimir, true),
+                "thanks" => GameFn::new(Self::thanks, true),
+                "exit" => GameFn::new(Self::main_menu, false),
+                _ => GameFn::new(Self::main_menu, true),
+            },
             None => GameFn::new(Self::main_menu, true),
         }
     }
@@ -63,19 +65,20 @@ impl TitleScreen {
 
     pub fn vladimir(&mut self) -> GameFn {
         loop {
-            let menu = MenuBuilder::new("").add_pretext("Pue Vladimirille villapaita").options(vec![("Pue", "pue"), ("Älä pue", "älä")]).build();
+            let menu = MenuBuilder::new("")
+                .add_pretext("Pue Vladimirille villapaita")
+                .options(vec![("Pue", "pue"), ("Älä pue", "älä")])
+                .build();
             match menu.show() {
-                Some(s) => {
-                    match s {
-                        "pue " => {
-                            prompt("Spasiba! Hyvin tehty. (enter lopettaaksesi)");
-                            break;
-                        },
-                        "älä" => {
-                            prompt("Hävisit pelin. (enter jatkaaksesi)");
-                        }
-                        _ => (),
+                Some(s) => match s {
+                    "pue " => {
+                        prompt("Spasiba! Hyvin tehty. (enter lopettaaksesi)");
+                        break;
                     }
+                    "älä" => {
+                        prompt("Hävisit pelin. (enter jatkaaksesi)");
+                    }
+                    _ => (),
                 },
                 _ => (),
             }
@@ -93,7 +96,7 @@ impl TitleScreen {
 
 pub struct GameFn {
     function: fn(&mut TitleScreen) -> GameFn,
-    running: bool
+    running: bool,
 }
 
 impl GameFn {
@@ -112,7 +115,6 @@ impl Deref for GameFn {
         &self.function
     }
 }
-
 
 fn main() {
     let mut title_screen = TitleScreen::new();
