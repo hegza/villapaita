@@ -4,3 +4,5 @@ name = "vvpp"
 version = "0.1.0"
 [dependencies]
 lazy_static = "*"
+serde = "1.0.80"
+ron = "0.4.0"
