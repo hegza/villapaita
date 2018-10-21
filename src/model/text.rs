@@ -23,27 +23,20 @@ impl Dictionary {
     }
 }
 
+use ron::de::from_reader;
+use std::fs::File;
 lazy_static! {
-    pub static ref DICTIONARY: Dictionary = Dictionary(vec![
-        FinnishNoun {
-            nominative: "työhuone".to_string(),
-            illative: "työhuoneeseen".to_string(),
-            inessive: "työhuoneessa".to_string()
-        },
-        FinnishNoun {
-            nominative: "asunto".to_string(),
-            illative: "asuntoon".to_string(),
-            inessive: "asunnossa".to_string()
-        },
-        FinnishNoun {
-            nominative: "hanki".to_string(),
-            illative: "hankeen".to_string(),
-            inessive: "hangessa".to_string()
-        },
-        FinnishNoun {
-            nominative: "lepohuone".to_string(),
-            illative: "lepohuoneeseen".to_string(),
-            inessive: "lepohuoneessa".to_string()
-        },
-    ]);
+    pub static ref DICTIONARY: Dictionary = {
+        let input_path = format!("{}/data/finnish_dictionary.ron", env!("CARGO_MANIFEST_DIR"));
+        let f = File::open(&input_path).expect("Failed opening file");
+        let dictionary: Dictionary = match from_reader(f) {
+            Ok(x) => x,
+            Err(e) => {
+                println!("Failed to load dictionary: {}", e);
+
+                ::std::process::exit(1);
+            }
+        };
+        dictionary
+    };
 }
