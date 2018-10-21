@@ -1,0 +1,6 @@
+[package]
+authors = ["hegza"]
+name = "vvpp"
+version = "0.1.0"
+[dependencies]
+lazy_static = "*"
