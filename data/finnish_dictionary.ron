@@ -1,22 +1,22 @@
-([
-    (
+({
+    "työhuone": (
         nominative: "työhuone",
         illative: "työhuoneeseen",
         inessive: "työhuoneessa",
     ),// [0]
-    (
+    "asunto": (
         nominative: "asunto",
         illative: "asuntoon",
         inessive: "asunnossa",
     ),// [1]
-    (
+    "hanki": (
         nominative: "hanki",
         illative: "hankeen",
         inessive: "hangessa",
     ),// [2]
-    (
+    "lepohuone": (
         nominative: "lepohuone",
         illative: "lepohuoneeseen",
         inessive: "lepohuoneessa",
     ),// [3]
-])
+})

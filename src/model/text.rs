@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 // Tells what this object is.
 pub trait Subject {
     fn subject(&self) -> &FinnishNoun;
@@ -16,11 +18,11 @@ pub struct FinnishNoun {
 
 // TODO: replace data structure with a hashmap
 #[derive(Serialize, Deserialize)]
-pub struct Dictionary(Vec<FinnishNoun>);
+pub struct Dictionary(HashMap<String, FinnishNoun>);
 
 impl Dictionary {
-    pub fn get(&self, nominative: &str) -> Option<&FinnishNoun> {
-        self.0.iter().find(|w| w.nominative == nominative)
+    pub fn get(&self, key: &str) -> Option<&FinnishNoun> {
+        self.0.get(key)
     }
 }
 
